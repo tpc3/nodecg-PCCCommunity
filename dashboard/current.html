@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Stream</title>
+</head>
+<body>
+	<div>Press "Reload" to get the asset list.</div>
+	<select id="pulldown"></select>
+	<select id="pulldown-next"></select>
+	<button id="reload">Reload</button>
+	<button id="apply">Apply</button>
+</body>
+<script>
+	const pulldown = document.getElementById("pulldown");
+	const pulldown_next = document.getElementById("pulldown-next");
+	const reload = document.getElementById("reload");
+	const apply = document.getElementById("apply");
+	const stream = nodecg.Replicant("stream");
+	const next = nodecg.Replicant("next");
+	const asset = nodecg.Replicant("assets:streams");
+	apply.onclick = () => {
+		send();
+	}
+	const  run = () => {
+		asset.on('change', newVal => {
+			for (const assetKey of newVal) {
+				let option = document.createElement("option");
+				option.text = assetKey.name;
+				option.value = assetKey.url;
+				pulldown.appendChild(option.cloneNode(true));
+				pulldown_next.appendChild(option.cloneNode(true));
+			}
+		});
+	}
+	const send = () => {
+		stream.value = pulldown.selectedOptions[0].value;
+		next.value = pulldown_next.selectedOptions[0].value;
+		console.log(pulldown.selectedOptions[0].value);
+	}
+	reload.onclick = () => {
+		pulldown.innerHTML="";
+		pulldown_next.innerHTML = "";
+		run();
+	}
+	run();
+</script>
+</html>

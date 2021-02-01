@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div>
+	Stream title
+	<input id="title"/>
+</div>
+<div>
+	Stream / Event URL
+	<input id="url"/>
+</div>
+<div>
+	Author of the Event
+	<input id="author">
+</div>
+<div>
+	Apply and send to the stream
+	<button id="apply" type="button">Apply</button>
+</div>
+</body>
+<script>
+	const title = document.getElementById("title");
+	const url = document.getElementById("url");
+	const author = document.getElementById("author");
+	const titleRep = nodecg.Replicant("title");
+	const urlRep = nodecg.Replicant("url");
+	const authorRep = nodecg.Replicant("author");
+	document.getElementById("apply").onclick = () => {
+		titleRep.value = title.value;
+		urlRep.value = url.value;
+		authorRep.value = author.value;
+	}
+	titleRep.on("change", newValue => {
+		title.value = newValue;
+	});
+	urlRep.on("change", newValue => {
+		onair.value = newValue;
+	});
+</script>
+</html>

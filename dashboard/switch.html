@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	Switch to: 
+    <button id="queue">queue</button>
+    <button id="frame">frame</button>
+</body>
+<script>
+	const switchRep = nodecg.Replicant("switch");
+	document.getElementById("queue").onclick = () => {
+        switchRep.value = "queue";
+	}
+	document.getElementById("frame").onclick = () => {
+        switchRep.value = "frame";
+	}
+</script>
+</html>

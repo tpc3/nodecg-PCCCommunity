@@ -1,0 +1,64 @@
+{
+  "name": "PCCDiscord",
+  "version": "1.0.0",
+  "description": "PCCDiscord stream graphics bundle",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "hayabusa2",
+  "license": "MIT",
+  "nodecg": {
+    "compatibleRange": "^1.0.0",
+    "assetCategories": [
+      {
+        "name": "streams",
+        "title": "Streams",
+        "allowedTypes": ["json"]
+      }
+    ],
+    "dashboardPanels": [
+      {
+        "width": "4",
+        "name": "current",
+        "title": "current",
+        "file": "current.html"
+      },
+      {
+        "width": "4",
+        "name": "title",
+        "title": "title",
+        "file": "title.html"
+      },
+      {
+        "width": "2",
+        "name": "switch",
+        "title": "switch",
+        "file": "switch.html"
+      }
+    ],
+    "graphics": [
+      {
+        "file": "frame.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "queue.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "cut.html",
+        "width": 1920,
+        "height": 1080
+      }
+    ],
+    "soundCues": [
+      {
+        "name": "single-channel",
+        "channels": 1
+      }
+    ]
+  }
+}

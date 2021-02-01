@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>queue</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+
+<body>
+    <iframe src="/bundles/PCCDiscord/graphics/frame.html" id="screen"></iframe>
+    <div id="base" class="cutin"></div>
+    <div id="pccdiscord" class="cutin">PCCDiscord</div>
+</body>
+
+<script>
+    nodecg.Replicant("switch").on("change", newValue => {
+        var tl = anime.timeline({
+			complete: () => {
+				tl.seek(0);
+			}
+		});
+        tl.add({
+            targets: '.cutin',
+            translateX: 2800,
+            duration: 3000,
+            skewX: [{value: "-0.06turn", duration: 0}],
+            easing: "easeInOutCubic",
+            complete: () => {
+                document.getElementById("screen").src = "/bundles/PCCDiscord/graphics/" + newValue + ".html";
+            }
+        });
+        tl.add({
+            targets: '.cutin',
+            translateX: 3710,
+            duration: 3000,
+            easing: "easeInOutCubic"
+        });
+        tl.add({
+            targets: '.cutin',
+            translateX: 6000,
+            duration: 3000,
+            easing: "easeInOutCubic"
+        });
+    })
+</script>
+
+<style>
+body {
+	margin: 0;
+	width: 1920px;
+	height: 1080px;
+	overflow: hidden;
+    font-family: 'Audiowide', cursive;
+	font-size: 40px;
+	position: absolute;
+    color: white;
+}
+#base {
+    width: 3000px;
+    height: 1080px;
+    left: -3500px;
+    position: absolute;
+    background-color: black;
+}
+#pccdiscord {
+    top: 540px;
+    height: 1080px;
+    vertical-align: center;
+    text-align: center;
+    left: -2500px;
+    position: absolute;
+}
+#screen {
+    border-width: 0;
+    position: absolute;
+    width: 1920px;
+    height: 1080px;
+</style>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>queue</title>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+</head>
+<body>
+	<div id="pccdiscord" class="font-logo">PCCDiscord stream</div>
+	<div id="clock" class="font"></div>
+	<div id="tech" class="tech-anime">
+		<span id="tech-icon" class="material-icons"></span>
+		<span id="tech-text"></span>
+	</div>
+	<div id="event-infos">
+		<div class="text">Event infos:</div>
+		<div id="title">
+			<span id="title-icon" class="material-icons">flag</span>
+			<span id="title-text"></span>
+		</div>
+		<div id="author">
+			<span class="material-icons">supervisor_account</span>
+			<span id="author-text"></span>
+		</div>
+		<div id="url">
+			<span class="icons-small material-icons">link</span>
+			<span id="url-text"></span>
+		</div>
+	</div>
+	<div id="stream-infos">
+	<div class="text">Next stream:</div>
+	<div id="onair">
+		<span id="onair-icon" class="material-icons">navigate_next</span>
+		<span id="onair-text"></span>
+	</div>
+	<div id="by">
+		<span class="material-icons">supervisor_account</span>
+		<span id="by-text"></span>
+ 	</div>
+	<div id="time">
+		<span class="material-icons">access_time</span>
+		<span id="time-text"></span>
+	</div>
+	</div>
+	<div id="bgm">
+		<span class="material-icons">queue_music</span>
+		<span id="bgm-text"></span>
+</body>
+<script>
+	let current = 0;
+	const techs = [
+		{icon: "code", detail: "This animation uses anime.js"},
+		{icon: "code", detail: "Frame sourcecode written by hayabusa2"},
+		{icon: "device_thermostat", detail: "My streaming computer, cleared for takeoff."}
+	];
+	const animCallback = () => { anime({
+		targets: '.tech-anime',
+		opacity: [{value: 0,duration: 0}, {value: 1}],
+		duration: 1000,
+		endDelay: 5000,
+		direction: 'alternate',
+		easing: 'linear',
+		complete: function(anim) {
+			console.log(techs[current]);
+			document.getElementById("tech-icon").innerText = techs[current].icon;
+			document.getElementById("tech-text").innerText = techs[current].detail;
+			if(current === techs.length - 1) {
+				current = 0;
+			} else {
+				current++;
+			}
+			animCallback();
+		}
+	})};
+	animCallback();
+	const chk = (i) => {
+		const s = String(i)
+		if (s.length === 1) {
+			return "0" + s;
+		} else {
+			return s;
+		}
+	}
+	const clock = () => {
+		const time = new Date();
+		document.getElementById("clock").innerText = chk(time.getHours()) + ":" + chk(time.getMinutes()) + ":" + chk(time.getSeconds());
+	}
+	setInterval(clock, 1000);
+		const getJSON = function(url, callback) {
+	    var xhr = new XMLHttpRequest();
+	    xhr.open('GET', url, true);
+	    xhr.responseType = 'json';
+	    xhr.onload = function() {
+	      var status = xhr.status;
+	      if (status === 200) {
+			callback(xhr.response);
+	      } else {
+			console.log("Error while GETting json, " + String(status));
+			callback(null);
+	      }
+	    };
+    	xhr.send();
+	};
+	nodecg.Replicant("title").on("change", newValue => {
+		document.getElementById("title-text").innerText = newValue;
+	});
+	nodecg.Replicant("url").on("change", newValue => {
+		document.getElementById("url-text").innerText = newValue;
+	});
+	nodecg.Replicant("author").on("change", newValue => {
+		document.getElementById("author-text").innerText = newValue;
+	});
+	nodecg.Replicant("bgm").on("change", newValue => {
+		let text="Unknown";
+		if(newValue != undefined) {
+			text=newValue;
+		}
+		document.getElementById("bgm-text").innerText = text;
+	});
+	nodecg.Replicant("next").on("change", newValue => {
+		const onair = document.getElementById("onair-text");
+		const by = document.getElementById("by-text");
+		const time = document.getElementById("time-text");
+		//onair.classList.add("onair-fadeout");
+		let streamObj;
+		setTimeout(() => {
+			getJSON(newValue, (v) => {
+				console.log(v);
+				onair.innerText = v.title;
+				by.innerText = v.author;
+				time.innerText = v.time;
+				//onair.classList.replace("onair-fadeout","onair-fadein");
+			});
+		}, 1000);
+	});
+</script>
+<style>
+	body {
+		margin: 0;
+		background-color: #2C2F33;
+		width: 1920px;
+		height: 1080px;
+		overflow: hidden;
+		font-family: 'M PLUS Rounded 1c', sans-serif;
+		font-size: xx-large;
+		position: absolute;
+		color: white;
+	}
+	.font-logo {
+		font-family: 'Audiowide', cursive;
+	}
+	#pccdiscord {
+		margin-top: 50px;
+		margin-left: 100px;
+		font-size: 50px;
+	}
+	#clock {
+		position: absolute;
+		top: 60px;
+		margin-right: 100px;
+		text-align: right;
+		width: 1820px;
+	}
+	#tech {
+		margin-top: 30px;
+		margin-left: 100px;
+	}
+	#bgm {
+		margin-top: 30px;
+		margin-left: 100px;
+	}
+	#stream-infos {
+		margin-top: 0px;
+		margin-left: 320px;
+		width: 1280px;
+		height: 350px;
+		background-color: #23272A;
+	}
+	#event-infos {
+		margin-top: 50px;
+		margin-left: 320px;
+		width: 1280px;
+		height: 350px;
+		background-color: #36393F;
+	}
+	.text {
+		padding-top: 30px;
+		margin-top: 0px !important;
+	}
+	#stream-infos div {
+		margin-left: 50px;
+		margin-top: 30px;
+	}
+	#event-infos div {
+		margin-top: 30px;
+		margin-left: 50px;
+	}
+	.material-icons {
+		font-size: 40px;
+		vertical-align: sub;
+	}
+</style>
+</html>
