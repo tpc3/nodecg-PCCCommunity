@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>PCCDiscord NodeCG bundle</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div id="logo-container">
+                <div id="pccdiscord">PCCDiscord</div>
+                <div id="community"><div>Community</div></div>
+            </div>
+            <div id="discord-container">
+                <img src="https://discord.com/assets/fc0b01fe10a0b8c602fb0106d8189d9b.png"></img>
+            </div>
+            <div id="imgs-container">
+                <div class="anime-img">
+                    <img src="https://cdn.discordapp.com/attachments/581397155458056215/813111871493505034/android-chrome-512x512.png"></img>
+                </div>
+                <div class="anime-img">
+                    <img src="https://cdn.discordapp.com/attachments/581397155458056215/813111896307007488/favicon.png"></img>
+                </div>
+            </div>
+            <div id="shell-container">
+                <span id="shell" class="shell">$</span>
+                <span id="shell-typing" class="shell">From development to games.</span>
+                <span id="shell-cursor" class="shell">|</span>
+            </div>
+        <div>
+    </body>
+<script>
+    nodecg.Replicant("switch").on("change", newValue => {
+            const typing = document.getElementById("shell-typing");
+            const text = typing.innerText;
+            typing.innerText = "";
+            let tl = anime.timeline({
+                complete: () => {
+                    let i = 0;
+                    const timer = setInterval(() => {
+                        typing.innerText = text.substring(0,i);
+                        if(i > text.length) {
+                            clearInterval(timer);
+                            anime({
+                                targets: '#container',
+                                opacity: 0,
+                                delay: 3000,
+                                duration: 1000
+                            });
+                        }
+                        else i++;
+                    },100);
+                }
+            });
+            anime.set("#pccdiscord", {
+                rotate: () => { return -45; },
+                opacity: () => { return 0; },
+                scale: () => { return 3; },
+            });
+            anime.set("#community", { opacity: () => { return 0; } });
+            anime.set("#community div", { translateX: () => { return -500; } });
+            anime.set("#discord-container", {
+                opacity: () => { return 0; },
+                translateY: () => { return 10; }
+            });
+            anime.set(".anime-img", {
+                opacity: () => { return 0; },
+                translateY: () => { return 10; }
+            });
+            anime.set("#shell-container", { opacity: () => { return 0; } });
+            tl.add({
+                targets: '#pccdiscord',
+                rotate: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 2000,
+                direction: 'normal',
+                easing: "easeOutExpo"
+            });
+            tl.add({
+                targets: '#community',
+                opacity: 1,
+                duration: 500
+            });
+            tl.add({
+                targets: '#community div',
+                translateX: 0,
+                duration: 2000,
+                easing: "easeOutExpo"
+            });
+            tl.add({
+                targets: '#discord-container',
+                opacity: 1,
+                translateY: 0,
+                duration: 1000,
+                easing: "easeOutExpo"
+            });
+            tl.add({
+                targets: '.anime-img',
+                opacity: 1,
+                translateY: 0,
+                delay: anime.stagger(100),
+                duration: 1000,
+                easing: "easeOutExpo"
+            });
+            tl.add({
+                targets: '#shell-container',
+                opacity: 1,
+                duration: 500
+            });
+            anime.set("#container", { opacity: () => { return 1; } });
+    })
+</script>
+<style>
+html {
+    width: 1920px;
+    height: 1080px;
+}
+body {
+    color: white;
+    margin: 0;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-size: 90px;
+    text-align: center;
+    white-space: nowrap;
+}
+img {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#logo-container {
+    padding-top: 200px;
+    padding-left: 30px;
+    display: flex;
+    align-items: center;
+}
+#pccdiscord {
+    font-family: 'Audiowide', cursive;
+    padding-inline-end: 20px;
+}
+#community {
+    border-left: solid;
+    border-width: 5px;
+    padding-inline-start: 20px;
+    overflow: hidden;
+}
+#discord-container {
+    height: 100px;
+}
+#discord-container img {
+    height: 80px;
+}
+#imgs-container {
+    padding: 0;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.anime-img img {
+    max-height: 100%;
+    width: auto;
+    display: block;
+}
+.anime-img {
+    height: 100%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+#shell-container {
+    width: 100%;
+    font-size: 40px;
+    padding-top: 50px;
+}
+#shell-cursor {
+    animation: cursor 0.5s ease 0s infinite alternate;
+}
+#shell-typing {
+    white-space: pre;
+}
+#container {
+    width: 1280px;
+    height: 720px;
+    margin-left: 320px;
+    margin-top: 180px;
+    opacity: 0;
+}
+@keyframes cursor {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+</style>
+</html>

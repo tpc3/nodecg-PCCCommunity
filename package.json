@@ -52,6 +52,11 @@
         "file": "cut.html",
         "width": 1920,
         "height": 1080
+      },
+      {
+        "file": "logo.html",
+        "width": 1920,
+        "height": 1080
       }
     ],
     "soundCues": [
