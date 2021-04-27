@@ -6,7 +6,7 @@ module.exports = function (nodecg) {
         const author = req.body.author;
         if(typeof bgm === "string" && typeof author === "string") {
             res.send('{result: "ok", error: null}');
-            if(bgm === "" || author === "") {
+            if(bgm === "" && author === "") {
                 nodecg.Replicant('bgm').value = "";
             } else if(author === "") {
                 nodecg.Replicant('bgm').value = bgm;

@@ -17,5 +17,17 @@
 	document.getElementById("frame").onclick = () => {
         switchRep.value = "frame";
 	}
+	switchRep.on('change', newVal => {
+		let color = "white";
+		switch(newVal) {
+			case "queue":
+				color = "red";
+				break;
+			case "frame":
+				color = "green";
+				break;
+		}
+		document.body.style.backgroundColor = color;
+	});
 </script>
 </html>

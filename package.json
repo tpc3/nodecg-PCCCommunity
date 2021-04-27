@@ -15,9 +15,26 @@
         "name": "streams",
         "title": "Streams",
         "allowedTypes": ["json"]
+      },
+      {
+        "name": "memes",
+        "title": "memes",
+        "allowedTypes": ["mp4", "webm"]
       }
     ],
     "dashboardPanels": [
+      {
+        "width": "2",
+        "name": "time",
+        "title": "time",
+        "file": "time.html"
+      },
+      {
+        "width": "2",
+        "name": "switch",
+        "title": "switch",
+        "file": "switch.html"
+      },
       {
         "width": "4",
         "name": "current",
@@ -31,10 +48,10 @@
         "file": "title.html"
       },
       {
-        "width": "2",
-        "name": "switch",
-        "title": "switch",
-        "file": "switch.html"
+        "width": "4",
+        "name": "meme",
+        "title": "meme",
+        "file": "meme.html"
       }
     ],
     "graphics": [

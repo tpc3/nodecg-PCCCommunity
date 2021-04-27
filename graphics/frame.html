@@ -14,36 +14,40 @@
       rel="stylesheet">
 </head>
 <body>
-	<div id="top-band"></div>
+	<div id="top-band" class="top-band">
+		<p id="pccdiscord" class="font top-band">PCCDiscord</p>
+		<p id="clock" class="font-jp"></p>
+	</div>
 	<div id="frame"></div>
-	<div id="bottom-band"></div>
-	<div id="bottom-band-right"></div>
-	<div id="title" class="font-jp">
-		<span class="icons-small material-icons">flag</span>
-		<span id="title-text"></span>
+	<div id="meme" class="font-jp"><video id="meme-url"></video></div>
+	<div id="bottom-band" class="font-jp bottom">
+		<div id="title" class="infos">
+			<span class="icons-small material-icons v-middle">flag</span>
+			<span id="title-text" class="v-middle"></span>
+		</div>
+		<div id="onair" class="infos">
+			<span class="icons material-icons v-middle">sensors</span>
+			<span id="onair-text" class="v-middle"></span>
+		</div>
+		<div id="by" class="infos">
+			<span class="icons material-icons v-middle">supervisor_account</span>
+			<span id="by-text" class="v-middle"></span>
+		</div>
+		<div id="time" class="infos">
+			<span class="icons material-icons v-middle">access_time</span>
+			<span id="time-text" class="v-middle"></span>
+		</div>
 	</div>
-	<div id="pccdiscord" class="font">PCCDiscord</div>
-	<div id="onair" class="font-jp">
-		<span class="icons material-icons">sensors</span>
-		<span id="onair-text"></span>
-	</div>
-	<div id="by" class="font-jp">
-		<span class="icons material-icons">supervisor_account</span>	
-		<span id="by-text"></span>
-	</div>
-	<div id="time" class="font-jp">
-		<span class="icons material-icons">access_time</span>
-		<span id="time-text"></span>
-	</div>
-	<div id="clock" class="font-jp"></div>
-	<div id="bgm" class="font-jp">
-		<span class="icons-small material-icons">queue_music</span>
-		<div id="bgm-text"></div>
-	</div>
-	<div id="url" class="font-jp">
-		<span class="icons-small material-icons">link</span>
-		<div id="url-text"></div>
+	<div id="bottom-band-right" class="font-jp bottom">
+		<div id="bgm" class="infos">
+			<span class="icons-small material-icons v-middle">queue_music</span>
+			<div id="bgm-text" class="v-middle"></div>
+		</div>
+		<div id="url" class="infos">
+			<span class="icons-small material-icons v-middle">link</span>
+			<div id="url-text" class="v-middle"></div>
 		</div>	
+	</div>
 </body>
 <script>
 	const getJSON = function(url, callback) {
@@ -74,6 +78,20 @@
 		}
 		document.getElementById("bgm-text").innerText = text;
 	});
+
+	memeRep = nodecg.Replicant("meme");
+	memeRep.on("change", newValue => {
+		if(newValue != undefined) {
+			const meme = document.getElementById("meme-url");
+			meme.src = newValue;
+			meme.style.visibility = "visible";
+			meme.play();
+			meme.onended = (e) => {
+				memeRep.value = undefined;
+				meme.style.visibility = "hidden";
+			}
+		}
+	});
 	nodecg.Replicant("stream").on("change", newValue => {
 		const onair = document.getElementById("onair-text");
 		const by = document.getElementById("by-text");
@@ -90,15 +108,11 @@
 			});
 		}, 1000);
 	});
-	const chk = (i) => {
-		const s = String(i)
-		if (s.length === 1) {
-			return "0" + s;
-		} else {
-			return s;
-		}
-	}
 	const clock = () => {
+		const chk = (i) => {
+			if (i < 10) return "0" + i;
+			else return i;
+		}
 		const time = new Date();
 		document.getElementById("clock").innerText = chk(time.getHours()) + ":" + chk(time.getMinutes()) + ":" + chk(time.getSeconds());
 	}
@@ -111,97 +125,73 @@
 		width: 1920px;
 		height: 1080px;
 		overflow: hidden;
+		color: white;
+		font-size: xx-large;
 	}
 	#frame {
-		border: 0;
-		margin: 100px 320px;
-		padding: 0;
+		margin-left: 320px;
 		height: 720px;
 		width: 1280px;
 		background-color: green;
-		position: absolute;
 	}
-	#top-band {
-		height: 100px;
+	.top-band {
+		height: 80px;
 		width: 1920px;
 		background-color: #23272A;
-		position: absolute;
+		vertical-align: middle;
+		line-height: 80px;
 	}
 	#bottom-band {
-		height: 540px;
 		width: 1920px;
-		margin-top: 820px;
 		background-color: #23272A;
-		position: absolute;
+	}
+	.bottom {
+		height: 200px;
+		padding: 20px 50px;
 	}
 	#bottom-band-right {
-		height: 540px;
 		width: 800px;
-		margin-top: 820px;
 		margin-left: 1120px;
 		background-color: #36393F;
-		position: absolute;
+		margin-top: -240px;
 	}
-	#title {
-		margin-top: 850px;
-		margin-left: 50px;
+	.infos {
+		padding-top: 10px;
 		font-size: x-large;
 	}
 	#pccdiscord {
-		margin-top: 30px;
-		margin-left: 50px;
+		padding-left: 50px;
+		margin: unset;
 	}
 	.font {
-		position: absolute;
-		color: white;
 		font-family: 'Audiowide', cursive;
-		font-size: xx-large;
-		z-index: 10;
 	}
 	.font-jp {
-		position: absolute;
-		color: white;
 		font-family: 'M PLUS Rounded 1c', sans-serif;
-		font-size: xx-large;
-		z-index: 10;
 	}
 	.icons {
 		font-size: 40px;
-		vertical-align: sub;
 	}
 	.icons-small {
 		font-size: xx-large;
-		vertical-align: sub;
 	}
-	#onair {
-		margin-top: 900px;
-		margin-left: 70px;	
-	}
-	#by {
-		margin-top: 950px;
-		margin-left: 70px;
-		font-size: x-large;
+	.v-middle {
+		vertical-align: middle;
 	}
 	#clock {
-		margin-top: 30px;
+		margin-top: -80px;
 		margin-right: 50px;
-		width: 1870px;
 		text-align: right;
 	}
-	#time {
-		margin-top: 1000px;
-		margin-left: 70px;
-		font-size: x-large;
+	#meme {
+		margin-top: -180px;
+		margin-left: 1600px;
+		width: 320px;
+		height: 180px;
 	}
-	#bgm {
-		margin-top: 860px;
-		margin-left: 1170px;
-		font-size: x-large;
-	}
-	#url {
-		margin-top: 970px;
-		margin-left: 1170px;
-		font-size: x-large;
+	#meme-url {
+		width: 100%;
+		height: 100%;
 	}
 </style>
 </html>
