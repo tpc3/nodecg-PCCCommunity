@@ -24,7 +24,7 @@
 	}
 	const  run = () => {
 		asset.on('change', newVal => {
-			for (const assetKey of newVal) {
+			for (const assetKey of newVal.sort()) {
 				let option = document.createElement("option");
 				option.text = assetKey.name;
 				option.value = assetKey.url;
