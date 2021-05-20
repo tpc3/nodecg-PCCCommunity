@@ -24,13 +24,16 @@
 	}
 	const  run = () => {
 		asset.on('change', newVal => {
-			for (const assetKey of newVal.sort()) {
-				let option = document.createElement("option");
-				option.text = assetKey.name;
-				option.value = assetKey.url;
-				pulldown.appendChild(option.cloneNode(true));
-				pulldown_next.appendChild(option.cloneNode(true));
-			}
+            if(Array.isArray(newVal)) {
+                const arr = [ ...newVal ].sort((a,b) => a.name > b.name ? 1 : -1);
+                for (const assetKey of arr.sort()) {
+                    let option = document.createElement("option");
+                    option.text = assetKey.name;
+                    option.value = assetKey.url;
+                    pulldown.appendChild(option.cloneNode(true));
+                    pulldown_next.appendChild(option.cloneNode(true));
+                }
+            }
 		});
 	}
 	const send = () => {
