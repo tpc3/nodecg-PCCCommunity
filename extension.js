@@ -18,5 +18,5 @@ module.exports = function (nodecg) {
         }
     });
 
-    nodecg.mount('/PCCDiscord-API', router);
+    nodecg.mount('/PCCCommunity-API', router);
 };

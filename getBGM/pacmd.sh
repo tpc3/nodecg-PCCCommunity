@@ -13,7 +13,7 @@ function check () {
         AUTHOR=$(echo "$PLAY" | cut -f 2 -d ",")
         if [ "$BGM" != "$LASTBGM" ]; then
             echo -e "Nowplaying:\n$BGM by $AUTHOR"
-            curl -X POST -H "Content-Type: application/json" -d '{"bgm":"'"$BGM"'", "author":"'"$AUTHOR"'"}' localhost:9090/PCCDiscord-API/bgm
+            curl -X POST -H "Content-Type: application/json" -d '{"bgm":"'"$BGM"'", "author":"'"$AUTHOR"'"}' localhost:9090/PCCCommunity-API/bgm
             echo -e "\n"
             LASTBGM="$BGM"
         fi

@@ -1,7 +1,7 @@
 {
-  "name": "PCCDiscord",
-  "version": "1.0.0",
-  "description": "PCCDiscord stream graphics bundle",
+  "name": "PCCCommunity",
+  "version": "2.0.0",
+  "description": "PCCCommunity stream graphics bundle",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
