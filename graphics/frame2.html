@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>frame</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="top-band" class="top-band">
+      <span id="pccdiscord" class="font">PCCCommunity</span>
+      <p id="clock" class="font-jp"></p>
+      <p id="title" class="infos">
+        <span class="icons-small material-icons v-middle">flag</span>
+        <span id="title-text" class="v-middle font-jp"></span>
+	  </p>
+    </div>
+    <!-- <div id="frame"></div> -->
+    <div id="meme" class="font-jp"><video id="meme-url"></video></div>
+    <div id="bottom-band" class="font-jp bottom">
+      <div id="onair" class="infos">
+        <span class="icons material-icons v-middle">sensors</span>
+        <span id="onair-text" class="v-middle"></span>
+      </div>
+      <div id="by" class="infos">
+        <span class="icons material-icons v-middle">supervisor_account</span>
+        <span id="by-text" class="v-middle"></span>
+      </div>
+      <div id="time" class="infos">
+        <span class="icons material-icons v-middle">access_time</span>
+        <span id="time-text" class="v-middle"></span>
+      </div>
+    </div>
+    <div id="bottom-band-right" class="font-jp bottom">
+      <div id="bgm" class="infos">
+        <span class="icons-small material-icons v-middle">queue_music</span>
+        <div id="bgm-text" class="v-middle"></div>
+      </div>
+      <div id="url" class="infos">
+        <span class="icons-small material-icons v-middle">link</span>
+        <div id="url-text" class="v-middle"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    const getJSON = function (url, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", url, true);
+      xhr.responseType = "json";
+      xhr.onload = function () {
+        var status = xhr.status;
+        if (status === 200) {
+          callback(xhr.response);
+        } else {
+          console.log("Error while GETting json, " + String(status));
+          callback(null);
+        }
+      };
+      xhr.send();
+    };
+    nodecg.Replicant("title").on("change", (newValue) => {
+      document.getElementById("title-text").innerText = newValue;
+    });
+    nodecg.Replicant("url").on("change", (newValue) => {
+      document.getElementById("url-text").innerText = newValue;
+    });
+    nodecg.Replicant("bgm").on("change", (newValue) => {
+      let text = "Unknown";
+      if (newValue != undefined) {
+        text = newValue;
+      }
+      document.getElementById("bgm-text").innerText = text;
+    });
+
+    memeRep = nodecg.Replicant("meme");
+    memeRep.on("change", (newValue) => {
+      if (newValue != undefined) {
+        const meme = document.getElementById("meme-url");
+        meme.src = newValue;
+        meme.style.visibility = "visible";
+        meme.play();
+        meme.onended = (e) => {
+          memeRep.value = undefined;
+          meme.style.visibility = "hidden";
+        };
+      }
+    });
+    nodecg.Replicant("stream").on("change", (newValue) => {
+      const onair = document.getElementById("onair-text");
+      const by = document.getElementById("by-text");
+      const time = document.getElementById("time-text");
+      //onair.classList.add("onair-fadeout");
+      let streamObj;
+      setTimeout(() => {
+        getJSON(newValue, (v) => {
+          console.log(v);
+          onair.innerText = v.title;
+          by.innerText = v.author;
+          time.innerText = v.time;
+          //onair.classList.replace("onair-fadeout","onair-fadein");
+        });
+      }, 1000);
+    });
+    const clock = () => {
+      const chk = (i) => {
+        if (i < 10) return "0" + i;
+        else return i;
+      };
+      const time = new Date();
+      document.getElementById("clock").innerText =
+        chk(time.getHours()) +
+        ":" +
+        chk(time.getMinutes()) +
+        ":" +
+        chk(time.getSeconds());
+    };
+    setInterval(clock, 1000);
+  </script>
+  <style>
+    body {
+      margin: 0;
+      background-color: green;
+      width: 1920px;
+      height: 1080px;
+      overflow: hidden;
+      color: white;
+      font-size: 32px /* xx-large */;
+    }
+    #frame {
+      /* margin-left: 320px; */
+      position: absolute;
+      height: 1080px;
+      width: 1920px;
+      background-color: green;
+    }
+    .top-band {
+      height: 50px;
+      width: 1920px;
+      /* background-color: #23272A; */
+      background-image: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, 1)
+      );
+      vertical-align: middle;
+      line-height: 50px;
+    }
+    #bottom-band {
+      width: 1920px;
+      background-image: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0),
+        rgba(0, 0, 0, .8)
+      );
+    }
+    .bottom {
+	  margin-top: 840px;
+      height: 150px;
+      padding: 20px 50px;
+    }
+    #bottom-band-right {
+      width: 800px;
+      margin-left: 1120px;
+      /* background-color: #36393f; */
+      margin-top: -200px;
+    }
+    .infos {
+      padding-top: 10px;
+      font-size: 24px /* x-large */;
+    }
+    #pccdiscord {
+      padding-left: 50px;
+      margin: unset;
+    }
+    .font {
+      font-family: "Audiowide", cursive;
+    }
+    .font-jp {
+      font-family: "M PLUS Rounded 1c", sans-serif;
+    }
+    .icons {
+      font-size: 40px;
+    }
+    .icons-small {
+      font-size: 32px /* xx-large */;
+    }
+    .v-middle {
+      vertical-align: middle;
+    }
+    #clock {
+      margin-top: -50px;
+      /* margin-right: 50px; */
+	  width: 100vw;
+      text-align: center;
+	  position: absolute;
+    }
+	#title {
+		margin-top: -60px;
+		width: 100vw;
+		height: 50px;
+		text-align: right;
+	}
+	#title-text {
+		padding-right: 20px;
+	}
+    #meme {
+      margin-top: -180px;
+      margin-left: 1600px;
+      width: 320px;
+      height: 180px;
+    }
+    #meme-url {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</html>
