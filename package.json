@@ -20,6 +20,11 @@
         "name": "memes",
         "title": "memes",
         "allowedTypes": ["mp4", "webm"]
+      },
+      {
+        "name": "particles",
+        "title": "particles.js config",
+        "allowedTypes": ["json"]
       }
     ],
     "dashboardPanels": [
@@ -66,7 +71,17 @@
         "height": 1080
       },
       {
+        "file": "frame3.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "queue.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "queue2.html",
         "width": 1920,
         "height": 1080
       },

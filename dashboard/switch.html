@@ -12,18 +12,18 @@
 <script>
 	const switchRep = nodecg.Replicant("switch");
 	document.getElementById("queue").onclick = () => {
-        switchRep.value = "queue";
+        switchRep.value = "queue2";
 	}
 	document.getElementById("frame").onclick = () => {
-        switchRep.value = "frame2";
+        switchRep.value = "frame3";
 	}
 	switchRep.on('change', newVal => {
 		let color = "white";
 		switch(newVal) {
-			case "queue":
+			case "queue2":
 				color = "red";
 				break;
-			case "frame":
+			case "frame3":
 				color = "green";
 				break;
 		}
