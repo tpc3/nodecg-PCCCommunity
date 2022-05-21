@@ -76,12 +76,22 @@
         "height": 1080
       },
       {
+        "file": "frame4.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "queue.html",
         "width": 1920,
         "height": 1080
       },
       {
         "file": "queue2.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "queue3.html",
         "width": 1920,
         "height": 1080
       },
