@@ -1,79 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <title>frame</title>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap"
-            rel="stylesheet"
-        />
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="common.js"></script>
-    </head>
-    <body class="m-0 w-screen h-screen bg-transparent overflow-hidden text-[32px]">
-        <div class="flex flex-row w-full h-12 overflow-hidden gap-4 absolute inset-x-0 bottom-0 mb-4 pl-4">
-            <div class="bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
-                <span class="material-icons">schedule</span>
-                <span id="clock" class="font-jp"></span>
-            </div>
-            <div class="bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
-                <span class="material-icons">today</span>
-                <span id="onair" class="font-jp"></span>
-            </div>
-            <div class="bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
-                <span class="material-icons">people</span>
-                <span id="by" class="font-jp"></span>
-            </div>
-            <div class="bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
-                <span class="material-icons">hourglass_top</span>
-                <span id="time" class="font-jp"></span>
-            </div>
-            <div class="bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
-                <span class="material-icons">nightlife</span>
-                <span id="bgm" class="font-jp"></span>
-            </div>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>frame</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="common.js"></script>
+</head>
+
+<body class="m-0 w-screen h-screen bg-transparent overflow-hidden text-[32px]">
+    <div class="flex flex-row w-full h-12 overflow-hidden gap-4 absolute inset-x-0 bottom-0 mb-4 pl-4">
+        <div class="status hidden bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
+            <span class="material-icons">schedule</span>
+            <span id="clock" class="font-jp"></span>
         </div>
-    </body>
-    <script>
-        setInterval(() => {
-            clock(document.getElementById("clock"));
-        }, 1000);
-        nodecg.Replicant("bgm").on("change", (newValue) => {
-            let text = "Unknown";
-            if (newValue != undefined) {
-                text = newValue;
-            }
-            document.getElementById("bgm").innerText = text;
-        });
-        nodecg.Replicant("stream").on("change", (newValue) => {
-            const onair = document.getElementById("onair");
-            const by = document.getElementById("by");
-            const time = document.getElementById("time");
-            let streamObj;
-            setTimeout(() => {
-                getJSON(newValue, (v) => {
-                    if (v != undefined) {
-                        let t = v.title.substring(0, 10)
-                        if (t.length > 10) {
-                            t += "..."
-                        }
-                        onair.innerText = t;
-                        by.innerText = v.author;
-                        time.innerText = v.time;
-                    }
+        <div class="status hidden bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
+            <span class="material-icons">today</span>
+            <span id="onair" class="font-jp"></span>
+        </div>
+        <div class="status hidden bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
+            <span class="material-icons">people</span>
+            <span id="by" class="font-jp"></span>
+        </div>
+        <div class="status hidden bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
+            <span class="material-icons">hourglass_top</span>
+            <span id="time" class="font-jp"></span>
+        </div>
+        <div class="status hidden bg-sky-200/50 px-4 rounded-full align-middle overflow-hidden shadow-2xl">
+            <span class="material-icons">nightlife</span>
+            <span id="bgm" class="font-jp"></span>
+        </div>
+    </div>
+    <div class="absolute w-1/5 h-1/5 overflow-hidden bottom-0 right-10">
+        <img src="https://media.discordapp.net/attachments/971092364955373568/975305435060011048/komfesame.png"
+            id="logo" />
+    </div>
+</body>
+<script>
+    let current = 0;
+    setInterval(() => {
+        clock(document.getElementById("clock"));
+    }, 1000);
+    setInterval(() => {
+        let count = 0;
+        document.querySelectorAll(".status").forEach(elem => {
+            if (count == current) {
+                elem.classList.remove(["hidden"]);
+                anime({
+                    targets: elem,
+                    opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+                    delay: 1000,
+                    duration: 1000,
+                    easing: "linear",
                 });
-            }, 1000);
-        });
-    </script>
-    <style>
-        .font {
-            font-family: "Audiowide", cursive;
+
+            } else {
+                if (!elem.classList.contains("hidden")) {
+                    anime({
+                        targets: elem,
+                        opacity: [{ value: 1, duration: 0 }, { value: 0 }],
+                        duration: 1000,
+                        easing: "linear",
+                        complete: () => {
+                            elem.classList.add(["hidden"]);
+                        }
+                    });
+                }
+            }
+            count++;
+        })
+        if (current == count) {
+            current = 0;
+        } else {
+            current++;
         }
-        .font-jp {
-            font-family: "M PLUS Rounded 1c", sans-serif;
+    }, 10000)
+    nodecg.Replicant("bgm").on("change", (newValue) => {
+        let text = "Unknown";
+        if (newValue != undefined) {
+            text = newValue;
         }
-    </style>
+        document.getElementById("bgm").innerText = text;
+    });
+    nodecg.Replicant("stream").on("change", (newValue) => {
+        const onair = document.getElementById("onair");
+        const by = document.getElementById("by");
+        const time = document.getElementById("time");
+        let streamObj;
+        setTimeout(() => {
+            getJSON(newValue, (v) => {
+                if (v != undefined) {
+                    onair.innerText = v.title;
+                    by.innerText = v.author;
+                    time.innerText = v.time;
+                }
+            });
+        }, 1000);
+    });
+</script>
+<style>
+    .font {
+        font-family: "Audiowide", cursive;
+    }
+
+    .font-jp {
+        font-family: "M PLUS Rounded 1c", sans-serif;
+    }
+</style>
+
 </html>

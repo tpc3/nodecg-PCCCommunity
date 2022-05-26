@@ -16,35 +16,56 @@
 
     <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white text-4xl">
         <iframe src="/bundles/pcccommunity/graphics/frame4.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
-        <div id="base" class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
-        <div id="pccdiscord" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center">$> [TPC3] TSPCCCommunity</div></div>
+        <div class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
+        <div id="pcccommunity" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center">$> [TPC3] TSPCCCommunity</div></div>
+        <div id="konfes" class="cutin hidden absolute flex h-screen w-screen opacity-0">
+            <video id="konfes-logo" width="1920" muted loop>
+                <source src="https://cdn.discordapp.com/attachments/971092364955373568/977929027316764742/Kon-Fes_theme_movie.mp4" type="video/mp4">
+            </video>
+        </div>
     </body>
 
     <script>
-        let val;
+        let switchval;
+        let konfes = false;
         let tl = anime.timeline({
+            begin: () => {
+                document.getElementById("konfes-logo").play();
+            },
             complete: () => {
                 tl.seek(0);
+                document.getElementById("konfes-logo").pause();
             },
         });
         tl.add({
             targets: ".cutin",
             opacity: 1,
-            duration: 3000,
+            duration: konfes ? 100 : 3000,
             easing: "easeInOutCubic",
             complete: () => {
-                document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + val + ".html";
+                document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
             },
         });
         tl.add({
             targets: ".cutin",
+            delay: konfes ? 2000 : 0,
             opacity: 0,
-            duration: 3000,
+            duration: konfes ? 100 : 3000,
             easing: "easeInOutCubic",
         });
         nodecg.Replicant("switch").on("change", (newValue) => {
-            val = newValue;
+            switchval = newValue;
             tl.play();
+        });
+        nodecg.Replicant("konfes").on("change", (newValue) => {
+            konfes = newValue;
+            if(konfes === true) {
+                document.getElementById("pcccommunity").classList.add(["hidden"])
+                document.getElementById("konfes").classList.remove(["hidden"])
+            } else {
+                document.getElementById("pcccommunity").classList.remove(["hidden"])
+                document.getElementById("konfes").classList.add(["hidden"])
+            }
         });
     </script>
 

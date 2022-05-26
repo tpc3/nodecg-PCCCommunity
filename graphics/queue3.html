@@ -69,29 +69,14 @@
             console.log("callback - particles.js config loaded");
         });
         let current = 0;
-        const techs = [
-            { icon: "feedback", detail: "イベントに関するお問い合わせはDiscordにてお願いします。" },
-            {
-                icon: "thumbs_up_down",
-                detail: "イベントによってはアンケートを実施している場合がございます。ご協力をお願いします。",
-            },
-            { icon: "coronavirus", detail: "会期中の交流においてもコロナウイルス感染拡大防止にご協力をお願いします。" },
-            { icon: "follow_the_signs", detail: "イベント中運営から指示があった場合、従ってください。" },
-            {
-                icon: "sports",
-                detail: "各枠の参加者・主催者の方は開始時刻15分前には運営とコンタクトが取れる状況を整えてください。",
-            },
-            { icon: "code", detail: "グラフィクスのソースコードはGitHubで公開されています: tpc3/nodecg-PCCCommunity" },
-            {
-                icon: "security",
-                detail: "配信をされる方は、パスワード等の機密情報が画面に表示されないようご注意ください。",
-            },
-            { icon: "help", detail: "イベントの詳細に関しては、上記URLをご覧ください。" },
-            {
-                icon: "medical_services",
-                detail: "万が一気分が悪くなった場合は、視聴や参加を速やかに中断し周りと連絡を取ってください。",
-            },
-        ];
+        let notifications;
+        getJSON("/assets/pcccommunity/notifications/notifications.json", (v) => {
+            if (v != undefined && v != null) {
+                notifications = v.notifications;
+            } else if (v == null) {
+                notifications = [ { icon: "help", detail: "お知らせはありません。" } ];
+            }
+        });
         const animCallback = () => {
             anime({
                 targets: ".tech-anime",
@@ -101,12 +86,14 @@
                 direction: "alternate",
                 easing: "linear",
                 complete: function (anim) {
-                    document.getElementById("tech-icon").innerText = techs[current].icon;
-                    document.getElementById("tech-text").innerText = techs[current].detail;
-                    if (current === techs.length - 1) {
-                        current = 0;
-                    } else {
-                        current++;
+                    if (notifications != null) {
+                        document.getElementById("tech-icon").innerText = notifications[current].icon;
+                        document.getElementById("tech-text").innerText = notifications[current].detail;
+                        if (current === notifications.length - 1) {
+                            current = 0;
+                        } else {
+                            current++;
+                        }
                     }
                     animCallback();
                 },
@@ -136,7 +123,6 @@
             const onair = document.getElementById("onair-text");
             const by = document.getElementById("by-text");
             const time = document.getElementById("time-text");
-            let streamObj;
             setTimeout(() => {
                 getJSON(newValue, (v) => {
                     if (v != undefined) {

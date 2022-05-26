@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "hayabusa2",
+  "author": "TSPCCCommunity",
   "license": "MIT",
   "nodecg": {
     "compatibleRange": "^1.0.0",
@@ -22,8 +22,8 @@
         "allowedTypes": ["mp4", "webm"]
       },
       {
-        "name": "particles",
-        "title": "particles.js config",
+        "name": "notifications",
+        "title": "notifications",
         "allowedTypes": ["json"]
       }
     ],

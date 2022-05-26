@@ -5,18 +5,55 @@
 	<title>Title</title>
 </head>
 <body>
-	Switch to: 
-    <button id="queue">queue</button>
-    <button id="frame">frame</button>
+	<section>
+		<p>Switcher</p>
+ 	   <button id="queue">queue</button>
+ 	   <button id="frame">frame</button>
+	</section>
+	<section>
+		<p>Type selector</p>
+		<div>
+			<label for="queue-selector">Queue</label>
+			<input id="queue-selector" class="selector" type="number" value="3" min="1" max="3">
+		</div>
+		<div>
+			<label for="frame-selector">Frame</label>
+			<input id="frame-selector" class="selector" type="number" value="4" min="1" max="3">
+		</div>
+		<div>
+			<label for="konfes-selector">KonFes Mode</label>
+			<input id="konfes-selector" type="checkbox">
+		</div>
+	</section>
 </body>
 <script>
 	const switchRep = nodecg.Replicant("switch");
+	const konfesRep = nodecg.Replicant("konfes");
 	document.getElementById("queue").onclick = () => {
-        switchRep.value = "queue3";
+		let val = document.getElementById("queue-selector").value;
+		if(val == 1) {
+			val = "";
+		} else {
+			val = val.toString()
+		}
+        switchRep.value = "queue" + val;
 	}
 	document.getElementById("frame").onclick = () => {
-        switchRep.value = "frame4";
+		let val = document.getElementById("frame-selector").value;
+		if(val == 1) {
+			val = "";
+		} else {
+			val = val.toString()
+		}
+        switchRep.value = "frame" + val;
 	}
+	const FesElem = document.getElementById("konfes-selector");
+	FesElem.onchange = () => {
+		konfesRep.value = FesElem.checked;
+	}
+	konfesRep.on("change", newVal => {
+		FesElem.checked = newVal;
+	})
 	switchRep.on('change', newVal => {
 		let color = "white";
 		if (newVal.startsWith("queue")) {
@@ -28,4 +65,12 @@
 		document.body.style.backgroundColor = color;
 	});
 </script>
+<style>
+	.selector {
+		width: 3em;
+	}
+	button {
+		font-size: xx-large;
+	}
+</style>
 </html>
