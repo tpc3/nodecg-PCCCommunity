@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Push</title>
+</head>
+<body>
+    <section>
+        <input id="content"></input>
+        <button id="send">Send</button>
+    </section>
+    <section>
+        <label for="sent">Latest Push:</label>
+        <output id="sent"></output>
+    </section>
+</body>
+<script>
+	const pushRep = nodecg.Replicant("push");
+	document.getElementById("send").onclick = () => {
+        pushRep.value = document.getElementById("content").value;
+        pushRep.value = "";
+	}
+    pushRep.on("change", newVal => {
+        if (newVal != "") {
+            document.getElementById("sent").value = newVal;
+        }
+	})
+</script>
+<style>
+    #content {
+        width: 240px;
+    }
+</style>
+</html>

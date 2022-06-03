@@ -57,6 +57,18 @@
         "name": "meme",
         "title": "meme",
         "file": "meme.html"
+      },
+      {
+        "width": "6",
+        "name": "embed",
+        "title": "embed",
+        "file": "embed.html"
+      },
+      {
+        "width": "4",
+        "name": "push",
+        "title": "push",
+        "file": "push.html"
       }
     ],
     "graphics": [

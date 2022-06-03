@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Embed</title>
+</head>
+<body>
+	<section>
+ 	   <input id="url"></input>
+ 	   <button id="apply">Apply</button>
+	</section>
+	<section>
+        <iframe id="embed" height="500" width="720"></iframe>
+	</section>
+</body>
+<script>
+	const embedRep = nodecg.Replicant("embed");
+    const urlElem = document.getElementById("url");
+	document.getElementById("apply").onclick = () => {
+        embedRep.value = urlElem.value;
+	}
+    embedRep.on("change", newVal => {
+        document.getElementById("embed").src = newVal;
+        urlElem.value = newVal;
+	})
+</script>
+<style>
+    #url {
+        width: 640px;
+    }
+</style>
+</html>
