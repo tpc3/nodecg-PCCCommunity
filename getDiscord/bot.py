@@ -24,7 +24,8 @@ async def on_ready():
 async def on_voice_state_update(member, before, after):
     members = []
     for i in client.get_channel(config["vcid"]).members:
-        members.append({"name": i.display_name, "avatar": str(i.avatar.url)})
+        if not i.display_name.startswith("stream"):
+            members.append({"name": i.display_name, "avatar": str(i.display_avatar.url)})
     requests.post(config["url"] + "vc", json={"members": members})
 
 @client.event
