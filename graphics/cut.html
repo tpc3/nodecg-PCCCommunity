@@ -16,7 +16,7 @@
 
     <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white text-4xl">
         <iframe src="/bundles/pcccommunity/graphics/frame4.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
-        <div class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
+        <div id="background" class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
         <div id="pcccommunity" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center">$> [TPC3] TSPCCCommunity</div></div>
         <div id="konfes" class="cutin hidden absolute flex h-screen w-screen opacity-0">
             <video id="konfes-logo" width="1920" muted loop>
@@ -26,33 +26,9 @@
     </body>
 
     <script>
-        let switchval;
-        let konfes = false;
-        let tl = anime.timeline({
-            begin: () => {
-                document.getElementById("konfes-logo").play();
-            },
-            complete: () => {
-                tl.seek(0);
-                document.getElementById("konfes-logo").pause();
-            },
-        });
-        tl.add({
-            targets: ".cutin",
-            opacity: 1,
-            duration: konfes ? 100 : 3000,
-            easing: "easeInOutCubic",
-            complete: () => {
-                document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
-            },
-        });
-        tl.add({
-            targets: ".cutin",
-            delay: konfes ? 2000 : 0,
-            opacity: 0,
-            duration: konfes ? 100 : 3000,
-            easing: "easeInOutCubic",
-        });
+        let switchval, konfes, tl;
+        
+        
         nodecg.Replicant("switch").on("change", (newValue) => {
             switchval = newValue;
             tl.play();
@@ -66,7 +42,88 @@
                 document.getElementById("pcccommunity").classList.remove(["hidden"])
                 document.getElementById("konfes").classList.add(["hidden"])
             }
+            tl = anime.timeline({
+                begin: () => {
+                    document.getElementById("konfes-logo").play();
+                },
+                complete: () => {
+                    tl.seek(0);
+                    document.getElementById("konfes-logo").pause();
+                },
+            });
+            if(konfes) {
+                tl.add({
+                    targets: ".cutin",
+                    opacity: 1,
+                    duration: 3000,
+                    easing: "easeInOutCubic",
+                    complete: () => {
+                        document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
+                    },
+                });
+                tl.add({
+                    targets: ".cutin",
+                    delay: 2000,
+                    opacity: 0,
+                    duration: 3000,
+                    easing: "easeInOutCubic",
+                });
+            } else {
+                tl.add({
+                    targets: "#background",
+                    opacity: 1,
+                    translateX: -2000,
+                    // skewX: 45,
+                    scaleY: 0.02,
+                    duration: 1,
+                });
+                tl.add({
+                    targets: "#background",
+                    translateX: 0,
+                    duration: 800,
+                    easing: "easeOutCirc",
+                });
+                tl.add({
+                    targets: "#background",
+                    scaleY: 1,
+                    duration: 1000,
+                    easing: "easeOutCirc",
+                    complete: () => {
+                        document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
+                    },
+                });
+                tl.add({
+                    targets: "#pcccommunity",
+                    opacity: 1,
+                    duration: 1000,
+                    easing: "linear",
+                }, "-=1000");
+                tl.add({
+                    duration: 1000,
+                });
+                tl.add({
+                    targets: "#background",
+                    backgroundColor: "#FFF",
+                    duration: 300,
+                    easing: "easeOutCirc",
+                });
+                tl.add({
+                    targets: "#pcccommunity",
+                    opacity: 0,
+                    duration: 1,
+                });
+                tl.add({
+                    duration: 800,
+                });
+                tl.add({
+                    targets: "#background",
+                    opacity: 0,
+                    duration: 300,
+                    easing: "easeOutCirc",
+                });
+            }
         });
+        
     </script>
 
     <style>
