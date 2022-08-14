@@ -123,6 +123,9 @@
             tmpElem.id = "";
             tmpElem.lastElementChild.src = value.avatar;
             tmpElem.firstElementChild.innerText = value.name;
+            if (value.speaking) {
+                tmpElem.lastElementChild.classList.add("border-emerald-500")
+            }
             vcElem.appendChild(tmpElem);
         })
     });
