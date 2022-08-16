@@ -62,6 +62,10 @@
             <span id="bgm" class="font-jp"></span>
         </div>
     </div>
+    <div id="logo-wrapper" class="absolute w-1/5 overflow-hidden bottom-[-9.5rem] right-10">
+        <img src="https://cdn.discordapp.com/attachments/1000873764671721644/1009089786893566162/2022.png"
+            id="logo" />
+    </div>
 </body>
 <script>
     let current = 0;
@@ -109,6 +113,13 @@
             text = newValue;
         }
         document.getElementById("bgm").innerText = text;
+    });
+    nodecg.Replicant("konfes").on("change", (newValue) => {
+        if (newValue) {
+            document.getElementById("logo-wrapper").classList.remove("hidden");
+        } else {
+            document.getElementById("logo-wrapper").classList.add("hidden");
+        }
     });
     nodecg.Replicant("vc").on("change", (newValue) => {
         const vcElem = document.getElementById("vc");

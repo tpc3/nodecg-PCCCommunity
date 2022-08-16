@@ -14,8 +14,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     </head>
 
-    <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white text-4xl">
-        <iframe src="/bundles/pcccommunity/graphics/frame4.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
+    <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white text-8xl">
+        <iframe src="/bundles/pcccommunity/graphics/frame5.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
         <div id="background" class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
         <div id="pcccommunity" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center">$> [TPC3] TSPCCCommunity</div></div>
         <div id="konfes" class="cutin hidden absolute flex h-screen w-screen opacity-0">
@@ -34,14 +34,14 @@
             tl.play();
         });
         nodecg.Replicant("konfes").on("change", (newValue) => {
-            konfes = newValue;
-            if(konfes === true) {
-                document.getElementById("pcccommunity").classList.add(["hidden"])
-                document.getElementById("konfes").classList.remove(["hidden"])
-            } else {
-                document.getElementById("pcccommunity").classList.remove(["hidden"])
-                document.getElementById("konfes").classList.add(["hidden"])
-            }
+            // konfes = newValue;
+            // if(konfes === true) {
+            //     document.getElementById("pcccommunity").classList.add(["hidden"])
+            //     document.getElementById("konfes").classList.remove(["hidden"])
+            // } else {
+            //     document.getElementById("pcccommunity").classList.remove(["hidden"])
+            //     document.getElementById("konfes").classList.add(["hidden"])
+            // }
             tl = anime.timeline({
                 begin: () => {
                     document.getElementById("konfes-logo").play();
@@ -51,24 +51,24 @@
                     document.getElementById("konfes-logo").pause();
                 },
             });
-            if(konfes) {
-                tl.add({
-                    targets: ".cutin",
-                    opacity: 1,
-                    duration: 3000,
-                    easing: "easeInOutCubic",
-                    complete: () => {
-                        document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
-                    },
-                });
-                tl.add({
-                    targets: ".cutin",
-                    delay: 2000,
-                    opacity: 0,
-                    duration: 3000,
-                    easing: "easeInOutCubic",
-                });
-            } else {
+            // if(konfes) {
+                // tl.add({
+                //     targets: ".cutin",
+                //     opacity: 1,
+                //     duration: 3000,
+                //     easing: "easeInOutCubic",
+                //     complete: () => {
+                //         document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
+                //     },
+                // });
+                // tl.add({
+                //     targets: ".cutin",
+                //     delay: 2000,
+                //     opacity: 0,
+                //     duration: 3000,
+                //     easing: "easeInOutCubic",
+                // });
+            // } else {
                 tl.add({
                     targets: "#background",
                     opacity: 1,
@@ -121,7 +121,7 @@
                     duration: 300,
                     easing: "easeOutCirc",
                 });
-            }
+            // }
         });
         
     </script>
