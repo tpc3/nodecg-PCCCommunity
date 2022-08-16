@@ -135,7 +135,7 @@
             tmpElem.lastElementChild.src = value.avatar;
             tmpElem.firstElementChild.innerText = value.name;
             if (value.speaking) {
-                tmpElem.lastElementChild.classList.add("border-emerald-500")
+                tmpElem.lastElementChild.classList.add(["border-emerald-500", "border-4"])
             }
             vcElem.appendChild(tmpElem);
         })
