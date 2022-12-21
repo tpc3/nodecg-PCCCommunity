@@ -37,6 +37,43 @@ module.exports = function (nodecg) {
             res.send('{result: "ng", "error": "Invaild type"}');
         }
     });
+    router.post("/current", (req, res) => {
+        const assets = nodecg.Replicant("assets:streams");
+        var success = false;
+		const { stream } = req.body;
+		const { next } = req.body;
+        if (stream != undefined) {
+            if (typeof stream !== "string") {
+                res.send('{result: "ng", "error": "Invaild type"}');
+                return;
+            }
+            const asset = assets.value.find(element => element.name == stream);
+            if (asset == undefined) {
+                res.send('{result: "ng", "error": "Asset not found"}');
+                return;
+            }
+            nodecg.Replicant("stream").value = asset.url;
+            success = true;
+        }
+        if (next != undefined) {
+            if (typeof next !== "string") {
+                res.send('{result: "ng", "error": "Invaild type"}');
+                return;
+            }
+            const asset = assets.value.find(element => element.name == next);
+            if (asset == undefined) {
+                res.send('{result: "ng", "error": "Asset not found"}');
+                return;
+            }
+            nodecg.Replicant("next").value = asset.url;
+            success = true;
+        }
+        if (success) {
+            res.send('{result: "ok", error: null}');
+        } else {
+            res.send('{result: "ng", error: "Invalid argument"}');
+        }
+    });
 
     nodecg.mount("/PCCCommunity-API", router);
 };
