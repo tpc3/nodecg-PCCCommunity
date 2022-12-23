@@ -25,39 +25,40 @@
         <img class="rounded-full inline shadow align-middle my-1"
             src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=4096"
             width="30" height="30" />
-        <div class="bg-indigo-200/50 px-3 ml-1 rounded-t-xl rounded-bl-xl shadow inline-block align-middle text-left font-noto-jp">Test</div>
+        <div
+            class="bg-indigo-200/50 px-3 ml-1 rounded-t-xl rounded-bl-xl shadow inline-block align-middle text-left font-noto-jp">
+            Test</div>
     </div>
     <div class="flex flex-row w-4/5 h-20 overflow-hidden gap-3 absolute inset-x-0 top-0 p-4">
-      <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex flex-none items-center">
-          <span class="material-icons pl-4">hourglass_top</span>
-          <span id="time" class="font-jp pl-2 pr-4"></span>
-      </div>
-      <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
-          <span class="material-icons pl-4">today</span>
-          <span id="onair" class="font-jp pl-2 pr-4 truncate"></span>
-      </div>
+        <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex flex-none items-center">
+            <span class="material-icons pl-4">hourglass_top</span>
+            <span id="time" class="font-jp pl-2 pr-4"></span>
+        </div>
+        <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">today</span>
+            <span id="onair" class="font-jp pl-2 pr-4 truncate"></span>
+        </div>
     </div>
     <div id="vc" class="text-[20px] absolute overflow-hidden right-0 p-4">
     </div>
-    <div id="chat" class="text-[20px] absolute overflow-hidden bottom-60 right-5 break-all w-[500px]">
+    <div id="chat" class="text-[20px] absolute overflow-hidden bottom-60 right-0 pr-4 break-all w-[500px]">
     </div>
-    <div id="push-wrapper" class="text-[28px] absolute w-4/5 bg-amber-200 px-4 rounded-tr-full rounded-br-full mr-5 align-middle overflow-hidden shadow top-20 inline-flex items-center" style="transform: translateX(-100px); opacity: 0;">
-      <span class="material-icons pr-2">notifications_active</span>
-      <span id="push" class="font-jp"></span>
+    <div id="push-wrapper"
+        class="text-[28px] absolute w-4/5 bg-amber-200 px-4 rounded-tr-full rounded-br-full mr-5 align-middle overflow-hidden shadow top-20 inline-flex items-center"
+        style="transform: translateX(-100px); opacity: 0;">
+        <span class="material-icons pr-2">notifications_active</span>
+        <span id="push" class="font-jp"></span>
     </div>
     <div class="flex flex-row w-full h-20 overflow-hidden gap-3 absolute inset-x-0 bottom-0 p-4 truncate">
-        <div
-            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+        <div class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
             <span class="material-icons pl-4">schedule</span>
             <span id="clock" class="font-jp pl-2 pr-4"></span>
         </div>
-        <div
-            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+        <div class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
             <span class="material-icons pl-4">people</span>
             <span id="by" class="font-jp pl-2 pr-4"></span>
         </div>
-        <div
-            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+        <div class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
             <span class="material-icons pl-4">nightlife</span>
             <span id="bgm" class="font-jp pl-2 pr-4"></span>
         </div>
@@ -147,13 +148,28 @@
         tmpElem.id = "";
         tmpElem.firstElementChild.src = newValue.avatar;
         tmpElem.lastElementChild.innerText = newValue.content;
-        chatElem.appendChild(tmpElem);
-        setTimeout(() => {
-            if (tmpElem != null) {
-                chatElem.removeChild(tmpElem);
-            }
-        }, 10000);
-        if(chatElem.childNodes.length > 6) {
+        const newero = chatElem.appendChild(tmpElem);
+        let tl = anime.timeline({
+            easing: 'easeOutExpo',
+            duration: 750,
+        });
+        tl.add({
+            targets: newero,
+            opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+            translateX: [{ value: 100, duration: 0 }, { value: 0 }],
+            duration: 1000,
+        });
+        tl.add({
+            targets: newero,
+            opacity: 0,
+            delay: 10000,
+            translateX: 100,
+            duration: 1000,
+        })
+        setTimeout(function () {
+            chatElem.removeChild(newero)
+        }, 11000)
+        if (chatElem.childNodes.length > 6) {
             chatElem.removeChild(chatElem.firstElementChild)
         }
     });
