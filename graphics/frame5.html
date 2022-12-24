@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -14,52 +15,51 @@
 </head>
 
 <body class="m-0 w-screen h-screen bg-transparent overflow-hidden text-[32px]">
-    <div id="vc-template" class="align-middle hidden text-right">
-        <div class="bg-sky-200/50 border-blue-500 border-2 px-2 rounded-xl shadow-2xl inline-block">Test</div>
-        <img class="rounded-full inline shadow-2xl"
+    <div id="vc-template" class="align-middle hidden text-right p-1 font-noto-jp">
+        <div class="bg-sky-200/50 px-3 mr-2 rounded-full shadow inline-block align-middle">Test</div>
+        <img class="rounded-full inline shadow"
             src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=4096"
             width="40" height="40" />
     </div>
-    <div id="chat-template" class="align-middle hidden text-right">
-        <img class="rounded-full inline shadow-2xl"
+    <div id="chat-template" class="align-middle hidden text-right p-1">
+        <img class="rounded-full inline shadow align-middle my-1"
             src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=4096"
             width="30" height="30" />
-        <div class="bg-indigo-200/50 border-indigo-500 border-2 px-2 rounded-t-xl rounded-bl-xl shadow-2xl inline-block">Test</div>
+        <div class="bg-indigo-200/50 px-3 ml-1 rounded-t-xl rounded-bl-xl shadow inline-block align-middle text-left font-noto-jp">Test</div>
     </div>
-    <div id="vc" class="text-[20px] absolute overflow-hidden top-5 right-5">
+    <div class="flex flex-row w-full h-20 overflow-hidden gap-3 absolute inset-x-0 top-0 p-4 truncate">
+      <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+          <span class="material-icons pl-4">hourglass_top</span>
+          <span id="time" class="font-jp pl-2 pr-4"></span>
+      </div>
+      <div class="bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+          <span class="material-icons pl-4">today</span>
+          <span id="onair" class="font-jp pl-2 pr-4"></span>
+      </div>
     </div>
-    <div id="chat" class="text-[20px] absolute overflow-hidden bottom-52 right-5 break-all w-[500px]">
+    <div id="vc" class="text-[20px] absolute overflow-hidden right-0 p-4">
     </div>
-    <div id="push-wrapper"
-        class="text-[28px] absolute hidden bg-amber-200 px-4 rounded-tl-2xl rounded-br-2xl mr-5 align-middle overflow-hidden shadow-2xl border-amber-500 border-2 top-5 left-5">
-        <span class="material-icons">notifications_active</span>
-        <span id="push" class="font-jp"></span>
+    <div id="chat" class="text-[20px] absolute overflow-hidden bottom-60 right-5 break-all w-[500px]">
     </div>
-    <div class="flex flex-row w-full h-12 overflow-hidden gap-4 absolute inset-x-0 bottom-0 mb-4 pl-4 truncate">
+    <div id="push-wrapper" class="text-[28px] absolute w-4/5 bg-amber-200 px-4 rounded-tr-full rounded-br-full mr-5 align-middle overflow-hidden shadow top-20 inline-flex items-center" style="transform: translateX(-100px); opacity: 0;">
+      <span class="material-icons pr-2">notifications_active</span>
+      <span id="push" class="font-jp"></span>
+    </div>
+    <div class="flex flex-row w-full h-20 overflow-hidden gap-3 absolute inset-x-0 bottom-0 p-4 truncate">
         <div
-            class="status hidden bg-emerald-200/75 px-4 rounded-xl align-middle overflow-hidden shadow-2xl border-emerald-500 border-2">
-            <span class="material-icons">schedule</span>
-            <span id="clock" class="font-jp"></span>
+            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">schedule</span>
+            <span id="clock" class="font-jp pl-2 pr-4"></span>
         </div>
         <div
-            class="status hidden bg-emerald-200/75 px-4 rounded-xl align-middle overflow-hidden shadow-2xl border-emerald-500 border-2">
-            <span class="material-icons">today</span>
-            <span id="onair" class="font-jp"></span>
+            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">people</span>
+            <span id="by" class="font-jp pl-2 pr-4"></span>
         </div>
         <div
-            class="status hidden bg-emerald-200/75 px-4 rounded-xl align-middle overflow-hidden shadow-2xl border-emerald-500 border-2">
-            <span class="material-icons">people</span>
-            <span id="by" class="font-jp"></span>
-        </div>
-        <div
-            class="status hidden bg-emerald-200/75 px-4 rounded-xl align-middle overflow-hidden shadow-2xl border-emerald-500 border-2">
-            <span class="material-icons">hourglass_top</span>
-            <span id="time" class="font-jp"></span>
-        </div>
-        <div
-            class="status hidden bg-emerald-200/75 px-4 rounded-xl align-middle overflow-hidden shadow-2xl border-emerald-500 border-2">
-            <span class="material-icons">nightlife</span>
-            <span id="bgm" class="font-jp"></span>
+            class="status hidden bg-emerald-200/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">nightlife</span>
+            <span id="bgm" class="font-jp pl-2 pr-4"></span>
         </div>
     </div>
     <div id="logo-wrapper" class="absolute w-1/5 overflow-hidden bottom-[-9.5rem] right-10">
@@ -135,7 +135,7 @@
             tmpElem.lastElementChild.src = value.avatar;
             tmpElem.firstElementChild.innerText = value.name;
             if (value.speaking) {
-                tmpElem.lastElementChild.classList.add("border-emerald-500", "border-4")
+                tmpElem.lastElementChild.classList.add("outline-emerald-500", "outline", "outline-2")
             }
             vcElem.appendChild(tmpElem);
         })
@@ -172,14 +172,14 @@
             tl.add({
                 targets: "#push-wrapper",
                 opacity: [{ value: 0, duration: 0 }, { value: 1 }],
-                translateX: [{ value: -50, duration: 0 }, { value: 0 }],
+                translateX: [{ value: -100, duration: 0 }, { value: 0 }],
                 duration: 1000,
             });
             tl.add({
                 targets: "#push-wrapper",
                 opacity: 0,
                 delay: 30000,
-                translateX: -50,
+                translateX: -100,
                 duration: 1000,
             })
         }
@@ -208,6 +208,10 @@
 
     .font-jp {
         font-family: "M PLUS Rounded 1c", sans-serif;
+    }
+
+    .font-noto-jp {
+        font-family: "Noto Sans JP", sans-serif;
     }
 </style>
 
