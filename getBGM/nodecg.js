@@ -21,8 +21,8 @@ Output when playing:
 
 // Original codes are from mopidy.js repository
 
-const Mopidy = require("../src/mopidy");
-const axios = require('axios');
+import Mopidy from "mopidy";
+import axios from 'axios';
 
 const mopidy = new Mopidy({
   autoConnect: false,
