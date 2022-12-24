@@ -148,26 +148,26 @@
         tmpElem.id = "";
         tmpElem.firstElementChild.src = newValue.avatar;
         tmpElem.lastElementChild.innerText = newValue.content;
-        const newero = chatElem.appendChild(tmpElem);
+        const newelm = chatElem.appendChild(tmpElem);
         let tl = anime.timeline({
             easing: 'easeOutExpo',
             duration: 750,
         });
         tl.add({
-            targets: newero,
+            targets: newelm,
             opacity: [{ value: 0, duration: 0 }, { value: 1 }],
             translateX: [{ value: 100, duration: 0 }, { value: 0 }],
             duration: 1000,
         });
         tl.add({
-            targets: newero,
+            targets: newelm,
             opacity: 0,
             delay: 10000,
             translateX: 100,
             duration: 1000,
         })
         setTimeout(function () {
-            chatElem.removeChild(newero)
+            chatElem.removeChild(newelm)
         }, 11000)
         if (chatElem.childNodes.length > 6) {
             chatElem.removeChild(chatElem.firstElementChild)
