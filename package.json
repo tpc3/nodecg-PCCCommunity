@@ -9,7 +9,7 @@
   "author": "TSPCCCommunity",
   "license": "MIT",
   "nodecg": {
-    "compatibleRange": "^1.0.0",
+    "compatibleRange": "^2.0.0",
     "assetCategories": [
       {
         "name": "streams",
@@ -94,6 +94,11 @@
       },
       {
         "file": "frame5.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "frame6.html",
         "width": 1920,
         "height": 1080
       },
