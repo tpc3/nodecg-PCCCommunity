@@ -14,10 +14,19 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     </head>
 
-    <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white text-8xl">
-        <iframe src="/bundles/pcccommunity/graphics/frame5.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
-        <div id="background" class="cutin bg-black absolute h-screen w-screen opacity-0"></div>
-        <div id="pcccommunity" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center">$> [TPC3] TSPCCCommunity</div></div>
+    <body class="m-0 w-[1920px] h-[1080px] overflow-hidden text-white bg-green">
+        <iframe src="/bundles/pcccommunity/graphics/frame6.html" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
+        <div id="background" class="cutin bg-gradient-to-b from-slate-950 to-blue-950 absolute h-[200vh] w-[200vh] opacity-0 rounded-full"></div>
+        <!-- <div id="pcccommunity" class="cutin absolute flex h-screen w-screen opacity-0"><div class="m-auto text-center text-sky-500">$> [TPC3] TSPCCCommunity</div></div> -->
+        <div id="pcccommunity" class="cutin absolute flex flex-col justify-center h-screen w-screen opacity-0">
+            <div class="m-auto text-center text-sky-100">
+                <div class="mb-6 text text-4xl align-middle">Streamed by</div>
+                <div class="logo text-5xl align-top mb-12">$> [TPC3] TSPCCCommunity</div>
+                <div>
+                    <img class="inline align-top" src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=96"></img>
+                </div>
+            </div>
+        </div>
         <div id="konfes" class="cutin hidden absolute flex h-screen w-screen opacity-0">
             <video id="konfes-logo" width="1920" muted loop>
                 <source src="https://cdn.discordapp.com/attachments/971092364955373568/977929027316764742/Kon-Fes_theme_movie.mp4" type="video/mp4">
@@ -71,33 +80,24 @@
             // } else {
                 tl.add({
                     targets: "#background",
+                    translateX: 840,
+                    scale: 0,
                     opacity: 1,
-                    translateX: -2000,
-                    // skewX: 45,
-                    scaleY: 0.02,
                     duration: 1,
                 });
                 tl.add({
                     targets: "#background",
-                    translateX: 0,
-                    duration: 800,
-                    easing: "easeOutCirc",
-                });
-                tl.add({
-                    targets: "#background",
-                    scaleY: 1,
-                    duration: 1000,
-                    easing: "easeOutCirc",
-                    complete: () => {
-                        document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
-                    },
+                    scale: 2.4,
+                    duration: 1800,
+                    easing: "linear",
                 });
                 tl.add({
                     targets: "#pcccommunity",
                     opacity: 1,
-                    duration: 1000,
+                    duration: 500,
                     easing: "linear",
-                }, "-=1000");
+
+                });
                 tl.add({
                     duration: 1000,
                 });
@@ -106,19 +106,23 @@
                     backgroundColor: "#FFF",
                     duration: 300,
                     easing: "easeOutCirc",
-                });
-                tl.add({
-                    targets: "#pcccommunity",
-                    opacity: 0,
-                    duration: 1,
+                    begin: () => {
+                        document.getElementById("screen").src = "/bundles/pcccommunity/graphics/" + switchval + ".html";
+                    },
                 });
                 tl.add({
                     duration: 800,
                 });
+                //tl.add({
+                //    targets: "#pcccommunity",
+                //    opacity: 0,
+                //    duration: 150,
+                //    easing: "easeOutCirc",
+                //}, "+=300");
                 tl.add({
-                    targets: "#background",
+                    targets: ".cutin",
                     opacity: 0,
-                    duration: 300,
+                    duration: 500,
                     easing: "easeOutCirc",
                 });
             // }
@@ -127,8 +131,11 @@
     </script>
 
     <style>
-        body {
+        .logo {
             font-family: "Audiowide", cursive;
+        }
+        .text {
+            font-family: "M PLUS Rounded 1c"
         }
     </style>
 </html>
