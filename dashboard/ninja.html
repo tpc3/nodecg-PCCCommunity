@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ninja</title>
+</head>
+<body>
+    <section>
+        <input id="content"></input>
+        <button id="send">Set</button>
+    </section>
+    <section>
+        <label for="sent">Latest Ninja URL:</label>
+        <output id="sent"></output>
+    </section>
+</body>
+<script>
+	const ninjaRep = nodecg.Replicant("ninja");
+	document.getElementById("send").onclick = () => {
+        ninjaRep.value = document.getElementById("content").value;
+	}
+    ninjaRep.on("change", newVal => {
+        if (newVal != "") {
+            document.getElementById("sent").value = newVal;
+        }
+	})
+</script>
+<style>
+    #content {
+        width: 240px;
+    }
+</style>
+</html>

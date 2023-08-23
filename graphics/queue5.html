@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" class="m-0 p-0">
+    <head>
+        <meta charset="UTF-8" />
+        <title>queue</title>
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+        <link
+            href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap"
+            rel="stylesheet"
+        />
+        <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+        <script src="common.js"></script>
+    </head>
+    <body class="m-0 p-0 w-screen h-screen bg-black overflow-hidden text-4xl text-white">
+        <div class="absolute w-[1920px] h-[1080px] border-2 -z-20 border-black"></div>
+        <div class="absolute w-screen h-screen overflow-hidden -z-30 brightness-50">
+            <iframe src="https://vdo.ninja/" id="screen" class="border-0 absolute w-[1920px] h-[1080px]"></iframe>
+        </div>
+        <div id="particles-js" class="absolute m-0 w-screen h-screen overflow-hidden -z-10"></div>
+        <div id="pccdiscord" class="font-logo pt-28 pl-20 text-5xl">$> [TPC3] TSPCCCommunity</div>
+        <div id="clock" class="absolute font top-28 mr-20 text-right w-[1820px]"></div>
+        <div class="mt-14 ml-20">
+            <span id="title">
+                <span id="title-icon" class="material-icons align-sub text-4xl">flag</span>
+                <span id="title-text"></span> </span
+            >/
+            <span id="author">
+                <span class="material-icons align-sub text-4xl">supervisor_account</span>
+                <span id="author-text"></span> </span
+            >/
+            <span id="url">
+                <span class="material-icons align-sub text-4xl">link</span>
+                <span id="url-text"></span>
+            </span>
+        </div>
+        <div id="tech" class="tech-anime mt-14 ml-20 text-3xl">
+            <span id="tech-icon" class="material-icons align-sub text-4xl"></span>
+            <span id="tech-text"></span>
+        </div>
+        <div class="mt-32 mx-40 h-[320px]">
+            <div class="mt-10">
+                <span class="material-icons align-sub text-6xl inline-block">navigate_next</span>
+                <span id="onair-text" class="font-mincho text-6xl tracking-wide"></span>
+            </div>
+            <div class="mt-10">
+                <span class="material-icons align-sub text-5xl">supervisor_account</span>
+                <span id="by-text" class="text-5xl font-mincho tracking-wide"></span>
+            </div>
+            <div class="mt-10">
+                <span class="material-icons align-sub text-5xl">access_time</span>
+                <span id="time-text" class="text-5xl font-mincho tracking-wide"></span>
+            </div>
+        </div>
+        <div id="bgm" class="absolute bottom-10 ml-20">
+            <span class="material-icons align-sub text-4xl">queue_music</span>
+            <span id="bgm-text"></span>
+        </div>
+    </body>
+    <script>
+        particlesJS.load("particles-js", "particlesjs-config3.json", function () {
+            console.log("callback - particles.js config loaded");
+        });
+        let current = 0;
+        let notifications;
+        getJSON("/assets/pcccommunity/notifications/notifications.json", (v) => {
+            if (v != undefined && v != null) {
+                notifications = v.notifications;
+            } else if (v == null) {
+                notifications = [ { icon: "help", detail: "お知らせはありません。" } ];
+            }
+        });
+        const animCallback = () => {
+            anime({
+                targets: ".tech-anime",
+                opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+                duration: 1000,
+                endDelay: 5000,
+                direction: "alternate",
+                easing: "linear",
+                complete: function (anim) {
+                    if (notifications != null) {
+                        document.getElementById("tech-icon").innerText = notifications[current].icon;
+                        document.getElementById("tech-text").innerText = notifications[current].detail;
+                        if (current === notifications.length - 1) {
+                            current = 0;
+                        } else {
+                            current++;
+                        }
+                    }
+                    animCallback();
+                },
+            });
+        };
+        animCallback();
+        setInterval(() => {
+            clock(document.getElementById("clock"));
+        }, 1000);
+        nodecg.Replicant("title").on("change", (newValue) => {
+            document.getElementById("title-text").innerText = newValue;
+        });
+        nodecg.Replicant("url").on("change", (newValue) => {
+            document.getElementById("url-text").innerText = newValue;
+        });
+        nodecg.Replicant("author").on("change", (newValue) => {
+            document.getElementById("author-text").innerText = newValue;
+        });
+        nodecg.Replicant("ninja").on("change", (newValue) => {
+            document.getElementById("screen").src = newValue;
+        });
+        nodecg.Replicant("bgm").on("change", (newValue) => {
+            let text = "Unknown";
+            if (newValue != undefined) {
+                text = newValue;
+            }
+            document.getElementById("bgm-text").innerText = text;
+        });
+        nodecg.Replicant("next").on("change", (newValue) => {
+            const onair = document.getElementById("onair-text");
+            const by = document.getElementById("by-text");
+            const time = document.getElementById("time-text");
+            setTimeout(() => {
+                getJSON(newValue, (v) => {
+                    if (v != undefined) {
+                        onair.innerText = v.title;
+                        by.innerText = v.author;
+                        time.innerText = v.time;
+                    }
+                });
+            }, 1000);
+        });
+    </script>
+    <style>
+        .font {
+            font-family: "M PLUS Rounded 1c", sans-serif;
+        }
+        .font-logo {
+            font-family: "Audiowide", cursive;
+        }
+        .font-mincho {
+            font-family: 'Shippori Mincho', serif;
+        }
+        /* .material-icons {
+            font-size: 40px;
+            vertical-align: sub;
+        } */
+    </style>
+</html>

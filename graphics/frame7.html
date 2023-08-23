@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>frame</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="common.js"></script>
+</head>
+
+<body class="m-0 w-screen h-screen bg-transparent overflow-hidden text-[32px]">
+    <div id="vc-template" class="align-middle hidden text-right p-1 font-noto-jp">
+        <div class="bg-sky-200/50 px-3 mr-2 rounded-full shadow inline-block align-middle">Test</div>
+        <img class="rounded-full inline shadow"
+            src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=4096"
+            width="40" height="40" />
+    </div>
+    <div id="chat-template" class="align-middle hidden text-right p-1">
+        <img class="rounded-full inline shadow align-middle my-1"
+            src="https://cdn.discordapp.com/icons/442549986207596544/a_4d26de7c9984ef733532a153e499cebf.gif?size=4096"
+            width="30" height="30" />
+        <div
+            class="bg-indigo-200/50 px-3 ml-1 rounded-t-xl rounded-bl-xl shadow inline-block align-middle text-left font-noto-jp">
+            Test</div>
+    </div>
+    <div class="flex flex-row w-4/5 h-20 overflow-hidden gap-3 absolute inset-x-0 top-0 p-4">
+        <div class="bg-cyan-100/75 rounded-full overflow-hidden shadow inline-flex flex-none items-center">
+            <span class="material-icons pl-4">hourglass_top</span>
+            <span id="time" class="font-jp pl-2 pr-4"></span>
+        </div>
+        <div class="bg-cyan-100/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">today</span>
+            <span id="onair" class="font-jp pl-2 pr-4 truncate"></span>
+        </div>
+    </div>
+    <div id="vc" class="text-[20px] absolute overflow-hidden right-0 p-4">
+    </div>
+    <div id="chat" class="text-[20px] absolute overflow-hidden bottom-60 right-0 pr-4 break-all w-[500px]">
+    </div>
+    <div id="push-wrapper"
+        class="text-[28px] absolute max-w-7xl bg-amber-200 px-4 rounded-tr-full rounded-br-full mr-5 align-middle overflow-hidden shadow top-20 inline-flex items-center"
+        style="transform: translateX(-100px); opacity: 0;">
+        <span class="material-icons pr-2">notifications_active</span>
+        <span id="push" class="font-jp"></span>
+    </div>
+    <div class="flex flex-row w-full h-20 overflow-hidden gap-3 absolute inset-x-0 bottom-0 p-4 truncate">
+        <div class="status hidden bg-cyan-100/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">schedule</span>
+            <span id="clock" class="font-jp pl-2 pr-4"></span>
+        </div>
+        <div class="status hidden bg-cyan-100/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">people</span>
+            <span id="by" class="font-jp pl-2 pr-4"></span>
+        </div>
+        <div class="status hidden bg-cyan-100/75 rounded-full overflow-hidden shadow inline-flex items-center">
+            <span class="material-icons pl-4">nightlife</span>
+            <span id="bgm" class="font-jp pl-2 pr-4"></span>
+        </div>
+    </div>
+    <div id="logo-wrapper" class="absolute w-1/6 overflow-hidden -bottom-12 -right-8 rounded-tl-full">
+        <img src="https://cdn.discordapp.com/attachments/1120021688218816562/1143163822467711038/d963ad7c56a8ade2.png"
+            id="logo" />
+    </div>
+</body>
+<script>
+    let current = 0;
+    let once = false;
+    setInterval(() => {
+        clock(document.getElementById("clock"));
+    }, 1000);
+    setInterval(() => {
+        let count = 0;
+        document.querySelectorAll(".status").forEach(elem => {
+            if (count == current) {
+                elem.classList.remove(["hidden"]);
+                anime({
+                    targets: elem,
+                    opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+                    delay: 1000,
+                    duration: 1000,
+                    easing: "linear",
+                });
+
+            } else {
+                if (!elem.classList.contains("hidden")) {
+                    anime({
+                        targets: elem,
+                        opacity: [{ value: 1, duration: 0 }, { value: 0 }],
+                        duration: 1000,
+                        easing: "linear",
+                        complete: () => {
+                            elem.classList.add(["hidden"]);
+                        }
+                    });
+                }
+            }
+            count++;
+        })
+        if (current == count) {
+            current = 0;
+        } else {
+            current++;
+        }
+    }, 10000)
+    nodecg.Replicant("bgm").on("change", (newValue) => {
+        let text = "Unknown";
+        if (newValue != undefined) {
+            text = newValue;
+        }
+        document.getElementById("bgm").innerText = text;
+    });
+    nodecg.Replicant("konfes").on("change", (newValue) => {
+        if (newValue) {
+            document.getElementById("logo-wrapper").classList.remove("hidden");
+        } else {
+            document.getElementById("logo-wrapper").classList.add("hidden");
+        }
+    });
+    nodecg.Replicant("vc").on("change", (newValue) => {
+        const vcElem = document.getElementById("vc");
+        let child = vcElem.lastElementChild;
+        while (child) {
+            vcElem.removeChild(child);
+            child = vcElem.lastElementChild;
+        }
+        newValue.forEach((value) => {
+            let tmpElem = document.getElementById("vc-template").cloneNode(true);
+            tmpElem.classList.remove("hidden")
+            tmpElem.id = "";
+            tmpElem.lastElementChild.src = value.avatar;
+            tmpElem.firstElementChild.innerText = value.name;
+            if (value.speaking) {
+                tmpElem.lastElementChild.classList.add("outline-emerald-500", "outline", "outline-2")
+            }
+            vcElem.appendChild(tmpElem);
+        })
+    });
+    nodecg.Replicant("chat").on("change", (newValue) => {
+        const chatElem = document.getElementById("chat");
+        let tmpElem = document.getElementById("chat-template").cloneNode(true);
+        tmpElem.classList.remove("hidden")
+        tmpElem.id = "";
+        tmpElem.firstElementChild.src = newValue.avatar;
+        tmpElem.lastElementChild.innerText = newValue.content;
+        const newelm = chatElem.appendChild(tmpElem);
+        let tl = anime.timeline({
+            easing: 'easeOutExpo',
+            duration: 750,
+        });
+        tl.add({
+            targets: newelm,
+            opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+            translateX: [{ value: 100, duration: 0 }, { value: 0 }],
+            duration: 1000,
+        });
+        tl.add({
+            targets: newelm,
+            opacity: 0,
+            delay: 10000,
+            translateX: 100,
+            duration: 1000,
+        })
+        setTimeout(function () {
+            chatElem.removeChild(newelm)
+        }, 11000)
+        if (chatElem.childNodes.length > 6) {
+            chatElem.removeChild(chatElem.firstElementChild)
+        }
+    });
+    nodecg.Replicant("push").on("change", (newValue) => {
+        if (!once) {
+            once = true;
+            return;
+        }
+        if (newValue != "") {
+            document.getElementById("push").innerText = newValue;
+            document.getElementById("push-wrapper").classList.remove("hidden");
+            let tl = anime.timeline({
+                easing: 'easeOutExpo',
+                duration: 750,
+            });
+            tl.add({
+                targets: "#push-wrapper",
+                opacity: [{ value: 0, duration: 0 }, { value: 1 }],
+                translateX: [{ value: -100, duration: 0 }, { value: 0 }],
+                duration: 1000,
+            });
+            tl.add({
+                targets: "#push-wrapper",
+                opacity: 0,
+                delay: 30000,
+                translateX: -100,
+                duration: 1000,
+            })
+        }
+    });
+
+    nodecg.Replicant("stream").on("change", (newValue) => {
+        const onair = document.getElementById("onair");
+        const by = document.getElementById("by");
+        const time = document.getElementById("time");
+        let streamObj;
+        setTimeout(() => {
+            getJSON(newValue, (v) => {
+                if (v != undefined) {
+                    onair.innerText = v.title;
+                    by.innerText = v.author;
+                    time.innerText = v.time;
+                }
+            });
+        }, 1000);
+    });
+</script>
+<style>
+    .font {
+        font-family: "Audiowide", cursive;
+    }
+
+    .font-jp {
+        font-family: "M PLUS Rounded 1c", sans-serif;
+    }
+
+    .font-noto-jp {
+        font-family: "Noto Sans JP", sans-serif;
+    }
+</style>
+
+</html>

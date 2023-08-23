@@ -69,6 +69,12 @@
         "name": "push",
         "title": "push",
         "file": "push.html"
+      },
+      {
+        "width": "4",
+        "name": "ninja",
+        "title": "ninja",
+        "file": "ninja.html"
       }
     ],
     "graphics": [
@@ -103,6 +109,11 @@
         "height": 1080
       },
       {
+        "file": "frame7.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
         "file": "queue.html",
         "width": 1920,
         "height": 1080
@@ -119,6 +130,11 @@
       },
       {
         "file": "queue4.html",
+        "width": 1920,
+        "height": 1080
+      },
+      {
+        "file": "queue5.html",
         "width": 1920,
         "height": 1080
       },
